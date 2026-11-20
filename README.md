@@ -3,12 +3,24 @@
   <h1>LuluTV</h1>
   <p><strong>山水之间，自有好戏。</strong></p>
   <p>可自托管的影视发现与多源播放器</p>
-  <p><a href="#快速开始">快速开始</a> · <a href="#docker-部署">Docker 部署</a> · <a href="#使用与配置">使用与配置</a> · <a href="#开发">开发</a></p>
+  <p><a href="#界面预览">界面预览</a> · <a href="#快速开始">快速开始</a> · <a href="#docker-部署">Docker 部署</a> · <a href="#使用与配置">使用与配置</a> · <a href="#开发">开发</a></p>
 </div>
 
-![LuluTV 山水主题](public/lulu-landscape.webp)
-
 LuluTV 把影视榜单、视频源搜索和播放放在同一个界面里。可浏览豆瓣、TMDB 和红果短剧榜单，添加 MacCMS JSON 视频源，或直接打开视频链接。
+
+## 界面预览
+
+### 发现首页
+
+![LuluTV 的山水主题首页，包含影片搜索和继续观看](docs/screenshots/home.webp)
+
+### 观影片单
+
+![LuluTV 观影片单，可按影视类别、题材和评分浏览](docs/screenshots/watchlists.webp)
+
+### 播放页
+
+![LuluTV 播放页，展示播放控制、选集和相关推荐](docs/screenshots/player.webp)
 
 ## 功能
 
