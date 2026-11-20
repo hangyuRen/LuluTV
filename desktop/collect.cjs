@@ -22,6 +22,11 @@ if (process.platform === "darwin") {
   try {
     execFileSync("ditto", [app, stagedApp], { stdio: "inherit" });
     execFileSync("codesign", ["--verify", "--deep", "--strict", stagedApp], { stdio: "inherit" });
+    execFileSync(path.join(stagedApp, "Contents", "MacOS", "LuluTV"), ["--version"], {
+      env: { ...process.env, ELECTRON_RUN_AS_NODE: "1" },
+      stdio: "inherit",
+      timeout: 15_000,
+    });
     fs.symlinkSync("/Applications", path.join(staging, "Applications"));
     execFileSync("hdiutil", ["create", "-ov", "-volname", "LuluTV", "-format", "UDZO", "-srcfolder", staging, dmg], { stdio: "inherit" });
     execFileSync("hdiutil", ["verify", dmg], { stdio: "inherit" });

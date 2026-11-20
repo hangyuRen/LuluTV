@@ -8,8 +8,11 @@ const macSigning = macIdentity
     identity: "-",
     identityValidation: false,
     preAutoEntitlements: false,
-    hardenedRuntime: false,
-    timestamp: "none",
+    optionsForFile: () => ({
+      hardenedRuntime: false,
+      signatureFlags: "0x0",
+      timestamp: "none",
+    }),
     continueOnError: false,
   };
 const macNotarization = macIdentity && process.env.APPLE_ID
