@@ -1,0 +1,31 @@
+{
+  "name": "lulutv-desktop",
+  "productName": "LuluTV",
+  "version": "2.2.0",
+  "description": "LuluTV 本地影视播放器",
+  "author": "LuluTV contributors",
+  "license": "MIT",
+  "private": true,
+  "main": "main.cjs",
+  "scripts": {
+    "prepare:app": "node prepare.cjs",
+    "start": "npm run prepare:app && electron-forge start",
+    "make": "npm run prepare:app && electron-forge make"
+  },
+  "config": {
+    "forge": "./forge.config.cjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hangyuRen/LuluTV.git"
+  },
+  "dependencies": {
+    "electron-squirrel-startup": "^1.0.1"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^8.0.1",
+    "@electron-forge/maker-squirrel": "^8.0.1",
+    "@electron-forge/maker-zip": "^8.0.1",
+    "electron": "^45.4.1"
+  }
+}

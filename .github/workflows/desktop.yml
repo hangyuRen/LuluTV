@@ -1,0 +1,103 @@
+name: Build LuluTV desktop
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: macos-15
+            arch: arm64
+            target: apple-arm64
+          - runner: macos-15-intel
+            arch: x64
+            target: apple-x64
+          - runner: windows-2025
+            arch: x64
+            target: windows-x64
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          architecture: ${{ matrix.arch }}
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            desktop/package-lock.json
+      - run: npm ci
+      - run: npm ci --prefix desktop
+      - name: Check desktop version matches release tag
+        if: startsWith(github.ref, 'refs/tags/v')
+        shell: bash
+        run: test "$GITHUB_REF_NAME" = "v$(node -p 'require("./desktop/package.json").version')"
+      - name: Import macOS signing certificate if configured
+        if: runner.os == 'macOS'
+        shell: bash
+        env:
+          MAC_CERTIFICATE_BASE64: ${{ secrets.MAC_CERTIFICATE_BASE64 }}
+          MAC_CERTIFICATE_PASSWORD: ${{ secrets.MAC_CERTIFICATE_PASSWORD }}
+        run: |
+          if [ -z "$MAC_CERTIFICATE_BASE64" ]; then exit 0; fi
+          keychain="$RUNNER_TEMP/lulutv-signing.keychain-db"
+          password="$(openssl rand -hex 24)"
+          printf '%s' "$MAC_CERTIFICATE_BASE64" | base64 -D > "$RUNNER_TEMP/lulutv-mac.p12"
+          security create-keychain -p "$password" "$keychain"
+          security unlock-keychain -p "$password" "$keychain"
+          security set-keychain-settings -lut 21600 "$keychain"
+          security import "$RUNNER_TEMP/lulutv-mac.p12" -k "$keychain" -P "$MAC_CERTIFICATE_PASSWORD" -T /usr/bin/codesign
+          security list-keychains -d user -s "$keychain"
+          security set-key-partition-list -S apple-tool:,apple: -s -k "$password" "$keychain"
+      - name: Load Windows signing certificate if configured
+        if: runner.os == 'Windows'
+        shell: pwsh
+        env:
+          WINDOWS_CERTIFICATE_BASE64: ${{ secrets.WINDOWS_CERTIFICATE_BASE64 }}
+        run: |
+          if ($env:WINDOWS_CERTIFICATE_BASE64) {
+            $certificate = Join-Path $env:RUNNER_TEMP 'lulutv-win.pfx'
+            [IO.File]::WriteAllBytes($certificate, [Convert]::FromBase64String($env:WINDOWS_CERTIFICATE_BASE64))
+            "WINDOWS_CERTIFICATE_FILE=$certificate" >> $env:GITHUB_ENV
+          }
+      - name: Build desktop installer and update files
+        env:
+          MAC_SIGN_IDENTITY: ${{ secrets.MAC_SIGN_IDENTITY }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+          WINDOWS_CERTIFICATE_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
+        run: npm --prefix desktop run make -- --arch=${{ matrix.arch }}
+      - name: Collect artifacts
+        working-directory: desktop
+        run: node collect.cjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: LuluTV-${{ matrix.target }}
+          path: desktop/dist/
+          if-no-files-found: error
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+      - name: Publish desktop release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" dist/* --repo "$GITHUB_REPOSITORY" --verify-tag --title "LuluTV $GITHUB_REF_NAME" --generate-notes

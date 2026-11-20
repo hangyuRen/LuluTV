@@ -30,6 +30,12 @@ npm run dev
 
 打开 [http://localhost:3000](http://localhost:3000)。基本功能可直接使用。TMDB 榜单和弹幕可按需在设置页配置。
 
+## 桌面客户端
+
+支持 Apple 芯片 Mac、Intel 芯片 Mac 和 64 位 Windows。安装后在独立窗口运行，无需部署网站。收藏、进度和设置保存在本机。
+
+[下载桌面客户端](https://github.com/hangyuRen/LuluTV/releases)
+
 ## Docker 部署
 
 在项目根目录构建并启动：

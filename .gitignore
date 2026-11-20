@@ -34,3 +34,7 @@ CLAUDE.md
 .claude
 .mcp.json
 .data/
+
+/desktop/runtime/
+/desktop/icons/
+/desktop/out/
