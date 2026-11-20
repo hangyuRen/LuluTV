@@ -18,12 +18,15 @@ jobs:
           - runner: macos-15
             arch: arm64
             target: apple-arm64
+            installer: LuluTV-apple-arm64.dmg
           - runner: macos-15-intel
             arch: x64
             target: apple-x64
+            installer: LuluTV-apple-x64.dmg
           - runner: windows-2025
             arch: x64
             target: windows-x64
+            installer: LuluTV-windows-x64.exe
     runs-on: ${{ matrix.runner }}
     steps:
       - uses: actions/checkout@v4
@@ -80,10 +83,21 @@ jobs:
       - name: Collect artifacts
         working-directory: desktop
         run: node collect.cjs
-      - uses: actions/upload-artifact@v4
+      - name: Upload installer
+        uses: actions/upload-artifact@v4
         with:
           name: LuluTV-${{ matrix.target }}
-          path: desktop/dist/
+          path: desktop/dist/${{ matrix.installer }}
+          if-no-files-found: error
+      - name: Upload in-app update files
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: actions/upload-artifact@v4
+        with:
+          name: LuluTV-update-${{ matrix.target }}
+          path: |
+            desktop/dist/*.zip
+            desktop/dist/*.nupkg
+            desktop/dist/RELEASES
           if-no-files-found: error
 
   release:
@@ -100,4 +114,13 @@ jobs:
       - name: Publish desktop release
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create "$GITHUB_REF_NAME" dist/* --repo "$GITHUB_REPOSITORY" --verify-tag --title "LuluTV $GITHUB_REF_NAME" --generate-notes
+        run: |
+          download_url="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/releases/download/$GITHUB_REF_NAME"
+          cat > release-notes.md <<EOF
+          ### 下载安装
+
+          - [Apple 芯片 Mac](${download_url}/LuluTV-apple-arm64.dmg)
+          - [Intel 芯片 Mac](${download_url}/LuluTV-apple-x64.dmg)
+          - [Windows x64](${download_url}/LuluTV-windows-x64.exe)
+          EOF
+          gh release create "$GITHUB_REF_NAME" dist/* --repo "$GITHUB_REPOSITORY" --verify-tag --title "LuluTV $GITHUB_REF_NAME" --notes-file release-notes.md --generate-notes

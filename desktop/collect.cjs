@@ -17,9 +17,11 @@ function copy(pattern, name) {
 if (process.platform === "darwin") {
   const staging = fs.mkdtempSync(path.join(os.tmpdir(), "lulutv-dmg-"));
   const app = path.join(__dirname, "out", `LuluTV-darwin-${process.arch}`, "LuluTV.app");
+  const stagedApp = path.join(staging, "LuluTV.app");
   const dmg = path.join(dist, `LuluTV-apple-${process.arch}.dmg`);
   try {
-    execFileSync("ditto", [app, path.join(staging, "LuluTV.app")], { stdio: "inherit" });
+    execFileSync("ditto", [app, stagedApp], { stdio: "inherit" });
+    execFileSync("codesign", ["--verify", "--deep", "--strict", stagedApp], { stdio: "inherit" });
     fs.symlinkSync("/Applications", path.join(staging, "Applications"));
     execFileSync("hdiutil", ["create", "-ov", "-volname", "LuluTV", "-format", "UDZO", "-srcfolder", staging, dmg], { stdio: "inherit" });
     execFileSync("hdiutil", ["verify", dmg], { stdio: "inherit" });

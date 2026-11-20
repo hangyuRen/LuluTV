@@ -1,14 +1,24 @@
 const path = require("node:path");
 
 const icon = path.join(__dirname, "icons", "LuluTV");
-const macSigning = process.env.MAC_SIGN_IDENTITY ? {
-  osxSign: { identity: process.env.MAC_SIGN_IDENTITY },
-  osxNotarize: process.env.APPLE_ID ? {
+const macIdentity = process.env.MAC_SIGN_IDENTITY;
+const macSigning = macIdentity
+  ? { identity: macIdentity, continueOnError: false }
+  : {
+    identity: "-",
+    identityValidation: false,
+    preAutoEntitlements: false,
+    hardenedRuntime: false,
+    timestamp: "none",
+    continueOnError: false,
+  };
+const macNotarization = macIdentity && process.env.APPLE_ID
+  ? {
     appleId: process.env.APPLE_ID,
     appleIdPassword: process.env.APPLE_APP_SPECIFIC_PASSWORD,
     teamId: process.env.APPLE_TEAM_ID,
-  } : undefined,
-} : {};
+  }
+  : undefined;
 
 module.exports = {
   packagerConfig: {
@@ -18,7 +28,8 @@ module.exports = {
     icon,
     extraResource: [path.join(__dirname, "runtime")],
     ignore: [/^\/runtime(?:\/|$)/, /^\/icons(?:\/|$)/, /^\/prepare\.cjs$/, /^\/forge\.config\.cjs$/],
-    ...macSigning,
+    osxSign: macSigning,
+    osxNotarize: macNotarization,
   },
   makers: [
     { name: "@electron-forge/maker-zip", platforms: ["darwin"] },
