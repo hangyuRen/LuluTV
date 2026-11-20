@@ -25,9 +25,12 @@ dist-ssr
 *.sw?
 .next
 .next/*
-.env.local
+.env
+.env.*
+!.env.example
 .agent/
 
 CLAUDE.md
 .claude
 .mcp.json
+.data/

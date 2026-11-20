@@ -1,4 +1,5 @@
 import path from "path";
+import { networkInterfaces } from "node:os";
 import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -6,6 +7,15 @@ const __dirname = path.dirname(__filename);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  devIndicators: false,
+  // A bare "*" is rejected by Next.js. Match IPv4 hosts and include this
+  // machine's IPv6 addresses for LAN access in development.
+  allowedDevOrigins: [
+    "*.*.*.*",
+    ...Object.values(networkInterfaces()).flat().filter(Boolean)
+      .filter((address) => address.family === "IPv6")
+      .map((address) => `[${address.address}]`),
+  ],
   reactStrictMode: false,
   reactCompiler: true,
   output: "standalone",

@@ -3,12 +3,11 @@
   "configVersion": 1,
   "workspaces": {
     "": {
-      "name": "nexttv",
+      "name": "lulutv",
       "dependencies": {
         "artplayer": "^5.4.0",
         "artplayer-plugin-danmuku": "^5.3.0",
         "hls.js": "^1.7.3",
-        "jose": "^6.2.10",
         "motion": "^14.14.0",
         "next": "16.4.6",
         "react": "19.3.0",
@@ -596,7 +595,6 @@
 
     "jiti": ["jiti@2.7.0", "https://registry.npmmirror.com/jiti/-/jiti-2.7.0.tgz", { "bin": { "jiti": "lib/jiti-cli.mjs" } }, "sha512-AC/7JofJvZGrrneWNaEnJeOLUx+JlGt7tNa0wZiRPT4MY1wmfKjt2+6O2p2uz2+skll8OZZmJMNqeke7kKbNgQ=="],
 
-    "jose": ["jose@6.2.10", "https://registry.npmmirror.com/jose/-/jose-6.2.10.tgz", {}, "sha512-iiW7J9qRFlGxvCOIBDBDxFePQSn7ZMAnrYGhrrOo6siO/MIqwfyilLR27pkfDgUk+raLuzADS8A3S/KLBisc0g=="],
 
     "js-tokens": ["js-tokens@4.0.0", "https://registry.npmmirror.com/js-tokens/-/js-tokens-4.0.0.tgz", {}, "sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ=="],
 

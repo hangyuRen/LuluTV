@@ -29,13 +29,14 @@ jobs:
           # 获取时间戳
           TIMESTAMP=$(date +%Y%m%d-%H%M%S)
           # 获取分支名（清理特殊字符）
-          BRANCH=$(echo ${{ github.ref_name }} | sed 's/[^a-zA-Z0-9._-]/-/g')
+          BRANCH=$(printf "%s" "$GITHUB_REF_NAME" | sed 's/[^a-zA-Z0-9._-]/-/g')
 
           # 生成多个标签
-          TAGS="ghcr.io/seqcrafter/nexttv:latest"
-          TAGS="${TAGS},ghcr.io/seqcrafter/nexttv:${BRANCH}-${TIMESTAMP}"
+          IMAGE="ghcr.io/${GITHUB_REPOSITORY,,}"
+          TAGS="${IMAGE}:latest"
+          TAGS="${TAGS},${IMAGE}:${BRANCH}-${TIMESTAMP}"
 
-          echo "tags=${TAGS}" >> $GITHUB_OUTPUT
+          echo "tags=${TAGS}" >> "$GITHUB_OUTPUT"
           echo "Generated tags: ${TAGS}"
 
       - name: Build and push
@@ -45,10 +46,6 @@ jobs:
           context: .
           push: true
           tags: ${{ steps.meta.outputs.tags }}
-          build-args: |
-            PORT=8888
-            DB_URL=${{ secrets.DB_URL }}
-            ASYNC_DB_URL=${{ secrets.ASYNC_DB_URL }}
 
   cleanup-refresh:
     runs-on: ubuntu-latest

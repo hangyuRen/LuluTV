@@ -1,304 +1,85 @@
-# NextTV
-
 <div align="center">
-  <img src="./public/logo.png" alt="NextTV Logo" width="50" height="50" />
-
-  <p><strong>现代化的视频流媒体播放平台</strong></p>
-
-  <p>
-    一个功能丰富的视频流媒体应用，支持多源搜索、智能播放、弹幕互动和历史记录管理
-  </p>
+  <img src="public/lulu-logo.png" width="88" height="88" alt="水豚噜噜">
+  <h1>LuluTV</h1>
+  <p><strong>山水之间，自有好戏。</strong></p>
+  <p>可自托管的影视发现与多源播放器</p>
+  <p><a href="#快速开始">快速开始</a> · <a href="#docker-部署">Docker 部署</a> · <a href="#使用与配置">使用与配置</a> · <a href="#开发">开发</a></p>
 </div>
 
-<div align="center">
+![LuluTV 山水主题](public/lulu-landscape.webp)
 
-![Next.js](https://img.shields.io/badge/Next.js-16.4.6-000?logo=nextdotjs)
-![React](https://img.shields.io/badge/React-19.3.0-61dafb?logo=react)
-![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4.3.3-38bdf8?logo=tailwindcss)
-![ArtPlayer](https://img.shields.io/badge/ArtPlayer-5.4.0-ff6b6b)
-![HLS.js](https://img.shields.io/badge/HLS.js-1.7.1-ec407a)
-![License](https://img.shields.io/badge/License-MIT-green)
-![Docker Ready](https://img.shields.io/badge/Docker-ready-blue?logo=docker)
+LuluTV 把影视榜单、视频源搜索和播放放在同一个界面里。可浏览豆瓣、TMDB 和红果短剧榜单，添加 MacCMS JSON 视频源，或直接打开视频链接。
 
-</div>
+## 功能
 
----
-
-## 特性
-
-- 🔒 **密码登录** - 支持密码登录
-- 🎬 **多源视频搜索** - 支持自定义多个视频源 API，聚合搜索电影和电视剧
-- 🎬 **预测速** - 支持自定义多个视频源 API，聚合搜索电影和电视剧
-- 🎥 **高级播放器** - 基于 Artplayer，支持 HLS/M3U8 流媒体播放
-- 💬 **弹幕系统** - 实时弹幕显示，支持多个弹幕源配置
-- 🚀 **去广告功能** - 自动过滤 M3U8 流中的广告片段
-- ⏭️ **智能跳过** - 自动跳过片头片尾，可自定义跳过时间点
-- 📝 **播放历史** - 自动保存观看进度，随时继续观看
-- ⭐ **收藏管理** - 收藏喜爱的视频，方便快速访问
-- 🎯 **豆瓣推荐** - 集成豆瓣 API，展示热门和高分影视内容
-- 🎯 **红果短剧推荐** - 基于红果短剧数据，展示热门和高分短剧内容
-- 🔗 **自定义豆瓣代理** - 自定义豆瓣 API 代理和图片代理，防止连接问题
-- ⚙️ **灵活配置** - 可视化管理视频源和弹幕源，支持导入导出
-- ⌨️ **快捷键支持** - 丰富的键盘快捷键，提升观看体验
-- 🔔 **首页剧集更新提醒** - 首页继续观看区域展示剧集更新提醒
-- 🔗 **直链播放** - 支持直链播放(尝试使用openlist的链接播放高清视频)，支持 MP4，m3u8 等多种格式
-- 🔗 **视频源探索** - 直接探索视频源内容
-
----
-
-<details>
-  <summary>点击查看项目截图</summary>
-  <img src="https://tncache1-f1.v3mh.com/image/2026/11/17/855d434e431be1ec3439677ceae24aff.jpg" alt="主页截图" style="max-width:600px">
-  <img src="https://tncache1-f1.v3mh.com/image/2026/11/17/7ce964454a711a29661e707086856456.jpg" alt="源浏览截图" style="max-width:600px">
-  <img src="https://tncache1-f1.v3mh.com/image/2026/11/17/e9c452f4a585e4f45bc64f8899e5e17b.jpg" alt="播放截图" style="max-width:600px">
-  <img src="https://tncache1-f1.v3mh.com/image/2026/11/17/e138bb4ff94e35d85fbb431d282b066a.jpg" alt="设置截图" style="max-width:600px">
-</details>
-
----
-
----
-
-### 重要说明：
-
-- **本项目为空壳播放器，自带唯一播放源不稳定，仅供学习使用，请自行更换播放源**
-- **本项目不添加用户登录以及认证功能**
-- **本项目完全由 Claude Code 生成，仅作为学习参考，请勿用于商业用途**
-
----
-
-## 技术栈
-
-### 核心框架
-
-- **Next.js** 16.3.3 - React 服务端渲染框架
-- **React** 19.2.8 - 用户界面构建库
-- **Tailwind CSS** 4.3.3 - 现代化 CSS 框架
-
-### 播放器相关
-
-- **Artplayer** 5.4.0 - 功能丰富的 HTML5 视频播放器
-- **HLS.js** 1.7.1 - HTTP Live Streaming 支持
-- **artplayer-plugin-danmuku** 5.3.0 - 弹幕插件
-
-### 状态管理
-
-- **Zustand** 5.0.15 - 轻量级状态管理库
-
----
+- **影视发现** · 按分类浏览榜单，查看影片简介、海报和演职员。
+- **多源搜索与浏览** · 并发搜索已启用的视频源，按分类浏览片库。添加新源时会检测接口和播放地址格式。
+- **播放与续播** · 支持 HLS/M3U8、直链播放、选集、播放线路切换、片头片尾跳过、收藏和观看进度。
+- **弹弹play 弹幕** · 在播放器控制栏开启，按片名和集数自动匹配，通过 ArtPlayer 渲染。
 
 ## 快速开始
 
-### 前置要求
-
-- Node.js 18.0 或更高版本
-- npm 或 yarn 包管理器
-
-### 安装
+需要 Node.js 20.9 或更高版本，以及 npm。
 
 ```bash
-# 克隆项目
-git clone https://github.com/yourusername/NextTV.git
-cd NextTV
-
-# 安装依赖
-bun install
-
-# 创建.env.local文件并写入以下内容
-SESSION_SECRET=<your secret>
-PASSWORD=<your password>
-
-# 启动开发服务器
-bun dev
+git clone https://github.com/hangyuRen/LuluTV.git
+cd LuluTV
+npm ci
+npm run dev
 ```
 
-访问 [http://localhost:3000](http://localhost:3000) 查看应用。
+打开 [http://localhost:3000](http://localhost:3000)。基本功能可直接使用。TMDB 榜单和弹幕可按需在设置页配置。
 
-也可以通过局域网 HTTP 地址（例如 `http://192.168.0.5:3000`）访问。登录会话的
-Cookie 会根据当前请求协议自动设置：HTTPS 使用 `Secure`，HTTP 不使用
-`Secure`。通过反向代理部署时，请确保代理正确传递 `X-Forwarded-Proto`。
+## Docker 部署
 
-### 构建生产版本
+在项目根目录构建并启动：
 
 ```bash
-# 构建项目
-bun run build
-
-# 启动生产服务器
-bun start
+docker build -t lulutv .
+docker run -d --name lulutv --restart unless-stopped -p 3000:3000 lulutv
 ```
 
----
+浏览器访问 `http://服务器地址:3000`。也可以在 GitHub Actions 中手动运行 **Build & Push Docker image**，将镜像发布到当前仓库对应的 GitHub Container Registry。
 
-## 主要功能
+## 使用与配置
 
-### 1. 视频搜索
+| 功能 | 操作 |
+| --- | --- |
+| 视频源 | 在「设置 → 视频源管理」添加公网可访问的 MacCMS JSON 接口。可以管理启停和优先级，也可以导入或导出 JSON 配置。「恢复默认」会用内置源替换当前列表。 |
+| 直链播放 | 在「直链播放」输入 M3U8、MP4 等浏览器支持的视频链接。填写片名可以用于自动匹配弹幕。 |
+| TMDB 榜单 | 申请 [TMDB API Key](https://www.themoviedb.org/settings/api)，在「设置 → TMDB 设置」填写。部署者可用 `TMDB_API_KEY` 或 `TMDB_READ_ACCESS_TOKEN` 提供默认凭据，浏览器配置优先。 |
+| 弹弹play 弹幕 | 在 [弹弹play开发者中心](https://dev.dandanplay.com/) 申请 App ID 和 App Secret，在「设置 → 弹弹play 设置」保存，再通过播放器控制栏开启。默认关闭。 |
 
-- 支持多个视频源聚合搜索
-- 分页浏览搜索结果
-- 展示视频封面、标题和简介
+视频源设置、凭据、收藏和观看记录保存在当前浏览器。视频源的 JSON 导出只包含视频源配置。
 
-### 2. 视频播放
-
-- **HLS 流媒体支持**：原生 HLS 和 HLS.js 自动降级
-- **自动去广告**：通过过滤 M3U8 中的 `#EXT-X-DISCONTINUITY` 标签去除广告
-- **片头片尾跳过**：可配置自动跳过的起止时间
-- **剧集切换**：上一集/下一集快速切换
-- **进度保存**：自动保存播放进度（每 5 秒）
-- **弹幕显示**：实时加载和显示弹幕评论
-
-### 3. 如何设置弹幕播放源
-
-请基于以上两个项目自行搭建弹幕源：
-
-- [danmu_api](https://github.com/SeqCrafter/danmu_api)
-
-对于`danmu_api`来说
-
-```
-https://<搭建地址>/{token}/api/v2/douban?douban_id=36481469&episode_number=1
-```
-
-在 NextTV 的设置中，弹幕源应该为`/api`之前的地址，例如：
-
-```
-https://<搭建地址>
-```
-
-或者
-
-```
-https://<搭建地址>/{token}
-```
-
-### 4. 播放历史
-
-- 自动记录观看历史（最多 20 条）
-- 显示观看进度和剧集信息
-- 快速跳转到历史记录
-- 支持删除单条或清空全部历史
-
-### 5. 收藏管理
-
-- 收藏喜爱的影视作品
-- 查看收藏列表
-- 快速访问收藏内容
-
-### 6. 豆瓣推荐
-
-- 首页展示豆瓣热门和高分内容
-- 支持按标签筛选（热门、最新、经典、豆瓣高分等）
-- 自定义标签管理（添加、编辑、删除）
-- 分页浏览推荐内容
-
-### 7. 设置管理
-
-- **视频源管理**：
-  - 添加/编辑/删除视频源
-  - 启用/禁用视频源
-  - 调整源优先级
-  - 导入/导出配置
-
-- **弹幕源管理**：
-  - 类似视频源的管理功能
-  - 支持多个弹幕源配置
-
----
-
-### 8. 导入导出功能
-
-除了手动添加源外，如果你非要添加大量源，可以使用导入功能，格式如下：
-
-```json
-{
-  "videoSources": [
-    {
-      "name": "xx资源",
-      "key": "xxxx",
-      "url": "https://xxxx/api.php/provide/vod",
-      "description": ""
-    }
-  ],
-  "danmakuSources": [
-    {
-      "name": "xxxx",
-      "url": "https://xxxx/api/v2/douban"
-    }
-  ]
-}
-```
-
-## 快捷键
-
-播放器支持以下快捷键操作：
-
-| 快捷键    | 功能       |
-| --------- | ---------- |
-| `空格`    | 播放/暂停  |
-| `←`       | 快退 10 秒 |
-| `→`       | 快进 10 秒 |
-| `Alt + ←` | 上一集     |
-| `Alt + →` | 下一集     |
-| `↑`       | 增加音量   |
-| `↓`       | 减少音量   |
-| `F`       | 全屏切换   |
-
----
+LuluTV 服务端负责查询榜单、搜索和详情，并转发豆瓣图片。浏览器使用片源提供的地址直接请求视频流。片源的可用性取决于上游服务。请使用有权访问和分发的内容。
 
 ## 开发
 
-### 启动开发服务器
+技术栈为 Next.js App Router、React、Tailwind CSS、Zustand、ArtPlayer 和 HLS.js。
 
-```bash
-bun dev
+```text
+src/
+├── app/          页面、布局和 API 路由
+├── components/   界面组件
+├── hooks/        播放、搜索和浏览逻辑
+├── lib/          接口、媒体匹配和播放器工具
+├── stores/       Zustand 状态与浏览器持久化
+└── styles/       全局样式和字体声明
+public/           品牌素材和本地字体
+tests/            Node.js 测试
 ```
 
-### 代码检查
-
 ```bash
-bun run lint
+npm run lint
+node --test tests/*.test.mjs
+npm run build
 ```
 
-### 构建项目
+## 致谢与许可证
 
-```bash
-bun run build
-```
+LuluTV 基于 [NextTV](https://github.com/SeqCrafter/NextTV) 演进。感谢 [ArtPlayer](https://artplayer.org/)、[HLS.js](https://github.com/video-dev/hls.js) 和 [弹弹play开放弹幕网络](https://www.dandanplay.com/)。
 
----
+项目使用 [MIT 许可证](LICENSE)。本地字体的来源与许可证见 [字体说明](public/fonts/README.md)。
 
-## 部署方案
-
-### 1. 使用 Vercel 部署（推荐）
-
-Fork 项目后，点击 Vercel 按钮即可部署。
-需要设置`SESSION_SECRET`和`PASSWORD`环境变量。
-你可以使用[该网站](https://randomkeygen.com/secret-key)生成`SESSION_SECRET`。
-密码按照你需要设置的设置即可
-
-
-### 2. 其他支持 Next.js 的云函数都可以尝试
-需要设置`SESSION_SECRET`和`PASSWORD`环境变量。
-你可以使用[该网站](https://randomkeygen.com/secret-key)生成`SESSION_SECRET`。
-密码按照你需要设置的设置即可
-
-## 许可证
-
-本项目采用 MIT 许可证 - 详见 [LICENSE](LICENSE) 文件。
-
----
-
-## 致谢
-
-- [Artplayer](https://github.com/zhw2590582/ArtPlayer) - 优秀的 HTML5 视频播放器
-- [LunaTV](https://github.com/SzeMeng76/LunaTV) - 功能复杂的 Next.js 的播放器
-- [LibreTV](https://github.com/LibreSpark/LibreTV) - 简易但不简单的播放器，本项目修改自 LibreTV
-- [豆瓣](https://movie.douban.com/) - 提供影视推荐数据
-- [CMLiussss](https://github.com/cmliu) - 感谢 CMLiussss 的 douban 代理
-- [Next.js](https://nextjs.org/) - React 服务端渲染框架
-- [Tailwind CSS](https://tailwindcss.com/) - 现代化 CSS 框架
-
----
-
-<div align="center">
-  <p>Made with ❤️ by Xiaoguang </p>
-</div>
+This product uses the TMDB API but is not endorsed or certified by TMDB.
